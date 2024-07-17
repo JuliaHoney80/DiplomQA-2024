@@ -2,12 +2,12 @@
 services:
 
   mysql:
-    image: mysql:8.0.18
+    image: mysql:latest
     restart: always
     ports:
       - '3306:3306'
     volumes:
-      - ./data:/var/lib/mysql/data
+      - ./data-mysql:/var/lib/mysql
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=app
@@ -15,18 +15,20 @@ services:
       - MYSQL_PASSWORD=pass
 
   postgresql:
-    image: postgres:14-alpine
+    image: postgres:latest
     ports:
       - '5432:5432'
     volumes:
-      - ./data:/var/lib/postgres/data
+      - ./data-postgres:/var/lib/postgres
     environment:
-      - POSTGRES_DATABASE=app
-      - POSTGRES_USER=app
-      - POSTGRES_PASSWORD=pass
+       - POSTGRES_DATABASE=app
+       - POSTGRES_USER=app
+       - POSTGRES_PASSWORD=pass
 
-  gate-simulator:
-    build: ./artifacts
-    image: gate-simulator:1.0
+  node-app:
+    build: .
+    image: node-app:1.0
     ports:
        - '9999:9999'
+
+

@@ -25,20 +25,19 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
     testImplementation 'mysql:mysql-connector-java:8.0.33'
-    testImplementation 'com.codeborne:selenide:6.17.2'
+    testImplementation 'com.codeborne:selenide:6.18.0'
     //testCompileOnly 'org.projectlombok:lombok:1.18.28'
     //testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
     testImplementation 'commons-dbutils:commons-dbutils:1.7'
     testImplementation 'com.github.javafaker:javafaker:1.0.2'
     testImplementation 'io.qameta.allure:allure-selenide:2.20.1'
-    testImplementation 'org.postgresql:postgresql:42.2.23.jre7'
+    testImplementation 'org.postgresql:postgresql:42.2.23'
 }
 
 test {
     useJUnitPlatform()
     systemProperty 'selenide.hedless', System.getProperty('selenide.headless')
     systemProperty 'db.url', System.getProperty('db.url', "jdbc:mysql://localhost:3306/app")
-
-    //Для работы с базой данных postgreSQL (со строки ниже необходимо снять комментарий):
-    systemProperty 'datasource', System.getProperty('datasource', 'jdbc:postgresql://localhost:5432/base_postgresql')
+    systemProperty 'db.user', System.getProperty('db.user', 'app')
+    systemProperty 'db.password', System.getProperty('db.password', 'pass')
 }
