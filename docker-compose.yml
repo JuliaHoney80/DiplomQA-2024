@@ -21,12 +21,12 @@ services:
     volumes:
       - ./data-postgres:/var/lib/postgres
     environment:
-       - POSTGRES_DATABASE=app
+       - POSTGRES_DB=app
        - POSTGRES_USER=app
        - POSTGRES_PASSWORD=pass
 
   node-app:
-    build: .
+    build: node-app
     image: node-app:1.0
     ports:
        - '9999:9999'
