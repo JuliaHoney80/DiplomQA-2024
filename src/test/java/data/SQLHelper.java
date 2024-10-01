@@ -26,22 +26,22 @@ public class SQLHelper {
 
     }
 @SneakyThrows
-    public static String DebitCardStatus(){
+    public static String getDebitCardStatus(){
     var statusSQL = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1";
     var amountSQL = "SELECT amount FROM payment_entity ORDER BY created DESC LIMIT 1";
     var connection = getConn();
     var status = QUERY_RUNNER.query(connection, statusSQL, new ScalarHandler<String>());
     var amount = QUERY_RUNNER.query(connection, amountSQL, new ScalarHandler<String>());
-    return new DataHelper.Card(status, amount);
+    return new DataHelper.Card();
     }
 @SneakyThrows
-    public static String CreditCardStatus(){
+    public static String getCreditCardStatus(){
     var statusSQL = "SELECT status FROM credit_request_entity ORDER BY created DESC LIMIT 1";
     var amountSQL = "SELECT amount FROM credit_request_entity ORDER BY created DESC LIMIT 1";
     var connection = getConn();
     var status = QUERY_RUNNER.query(connection, statusSQL, new ScalarHandler<String>());
     var amount = QUERY_RUNNER.query(connection, amountSQL, new ScalarHandler<String>());
-    return new DataHelper.Card(status, amount);
+    return new DataHelper.Card();
 }
     }
 
