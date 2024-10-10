@@ -28,7 +28,7 @@ public class DashBoardPage {
         return new DashBoardPage();
     }
     public DashBoardPage CreditCardPage() {
-        payButton2.shouldBe(visible);
+        payButton2.shouldBe(visible).click();
         textPayByCreditCard.shouldBe(visible);
         return new DashBoardPage();
     }

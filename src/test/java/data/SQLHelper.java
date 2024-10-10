@@ -1,47 +1,46 @@
 package data;
 
-import lombok.SneakyThrows;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
+import java.util.List;
+import java.util.Map;
+import lombok.SneakyThrows;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 
 public class SQLHelper {
-    private static final QueryRunner QUERY_RUNNER = new QueryRunner();
-    private SQLHelper(){
-    }
 
-    private static Connection getConn() throws SQLException {
-        return DriverManager.getConnection(System.getProperty("db.url"), "app", "pass");
-    }
-    @SneakyThrows
-    public static void cleanDataBase() {
-        var connection = getConn();
-        QUERY_RUNNER.execute(connection, "DELETE FROM credit_request_entry");
-        QUERY_RUNNER.execute(connection, "DELETE FROM order_entity");
-        QUERY_RUNNER.execute(connection, "DELETE FROM payment_entity");
+  private static final QueryRunner QUERY_RUNNER = new QueryRunner();
 
-    }
-@SneakyThrows
-    public static String getDebitCardStatus(){
-    var statusSQL = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1";
-    var amountSQL = "SELECT amount FROM payment_entity ORDER BY created DESC LIMIT 1";
-    var connection = getConn();
-    var status = QUERY_RUNNER.query(connection, statusSQL, new ScalarHandler<String>());
-    var amount = QUERY_RUNNER.query(connection, amountSQL, new ScalarHandler<String>());
-    return new DataHelper.Card();
-    }
-@SneakyThrows
-    public static String getCreditCardStatus(){
-    var statusSQL = "SELECT status FROM credit_request_entity ORDER BY created DESC LIMIT 1";
-    var amountSQL = "SELECT amount FROM credit_request_entity ORDER BY created DESC LIMIT 1";
-    var connection = getConn();
-    var status = QUERY_RUNNER.query(connection, statusSQL, new ScalarHandler<String>());
-    var amount = QUERY_RUNNER.query(connection, amountSQL, new ScalarHandler<String>());
-    return new DataHelper.Card();
+  private SQLHelper() {
+  }
+
+  private static Connection getConn() throws SQLException {
+    return DriverManager.getConnection(System.getProperty("db.url"), "app", "pass");
+  }
+
+  @SneakyThrows
+  public static void cleanDataBase() {
+    Connection connection = getConn();
+    QUERY_RUNNER.execute(connection, "DELETE FROM credit_request_entity");
+    QUERY_RUNNER.execute(connection, "DELETE FROM order_entity");
+    QUERY_RUNNER.execute(connection, "DELETE FROM payment_entity");
+
+  }
+
+  @SneakyThrows
+  public static String getOrderStatus(String statusType) {
+    String leftJoinQuery = "select ord.id, pa.status as payment, cr.status as credit\n"
+        + "from app.order_entity ord\n"
+        + "         left join app.payment_entity pa on ord.payment_id = pa.transaction_id\n"
+        + "         left join app.credit_request_entity cr on ord.payment_id = cr.bank_id;";
+
+    Connection connection = getConn();
+    List<Map<String, Object>> resultMap = QUERY_RUNNER.query(connection, leftJoinQuery, new MapListHandler());
+
+    return resultMap.listIterator().next().get(statusType).toString();
+  }
+
 }
-    }
 

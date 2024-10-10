@@ -86,9 +86,8 @@ public class DataHelper {
         return fakerLangEN.name().fullName();
     }
 
-    public static String getNameOwnerInfoSpecialSymbol(String locale) {
-        var faker = new Faker(new Locale("(%$#@*"));
-        return faker.name().fullName();
+    public static String getNameOwnerInfoSpecialSymbol() {
+        return "(%$#@*";
     }
 
     public static String getNameOwnerInfoCyrillic() {

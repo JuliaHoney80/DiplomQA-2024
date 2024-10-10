@@ -1,29 +1,42 @@
 package page;
 
+import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
+import data.Card;
 import data.DataHelper;
+import java.time.Duration;
 
-import javax.smartcardio.Card;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class CreditCardPage {
-    private final SelenideElement numberCardField = $("[placeholder='0000 0000 0000 0000'].input_control");
+
+    private final SelenideElement numberCardField = $("[placeholder='0000 0000 0000 0000'].input__control");
     private final SelenideElement numberCardFieldError = $(withText("Неверный формат"));
-    private final SelenideElement monthField = $("[placeholder='08'].input_control");
+    private final SelenideElement monthField = $("[placeholder='08'].input__control");
     private final SelenideElement monthFieldError = $(withText("Неверный формат"));
-    private final SelenideElement yearField = $("[placeholder='22'].input_control");
+    private final SelenideElement monthFieldCardError = $(withText("Неверно указан срок действия карты"));
+
+    private final SelenideElement yearField = $("[placeholder='22'].input__control");
     private final SelenideElement yearFieldError = $(withText("Неверный формат"));
-    private final SelenideElement ownerField = $(byText("Владелец"));
+    private final SelenideElement ownerField = $($x("//*[text()='Владелец']/..//input"));
     private final SelenideElement ownerFieldError = $(withText("Поле обязательно для заполнения"));
-    private final SelenideElement cvcField = $("[placeholder='999'].input_control");
+    private final SelenideElement cvcField = $x("//*[text()='CVC/CVV']/..//input");
     private final SelenideElement cvcFieldError = $(withText("Неверный формат"));
     private final SelenideElement continueButton = $(byText("Продолжить"));
+    private final SelenideElement notificationSuccessful = $(".notification_status_ok");
+    private final SelenideElement notificationError = $(".notification_status_error");
 
-    public void errorNotificationDebitCardForm() {
+    public void notificationSuccessful() {
+        notificationSuccessful.shouldBe(visible, Duration.ofSeconds(15)).should(text("Успешно Операция одобрена банком."));
+    }
+
+    public void errorNotificationCreditCardForm() {
         numberCardFieldError.shouldBe(visible);
         monthFieldError.shouldBe(visible);
         yearFieldError.shouldBe(visible);
@@ -31,13 +44,25 @@ public class CreditCardPage {
         cvcFieldError.shouldBe(visible);
     }
 
-    public void payCreditCardPage(Card info) {
-        numberCardField.shouldBe(visible).setValue(info.getCardNumber());
-        monthField.shouldBe(visible).setValue(info.getMonth());
-        yearField.shouldBe(visible).setValue(info.getYear());
-        ownerField.shouldBe(visible).setValue(info.getOwner());
-        cvcField.shouldBe(visible).setValue(info.getCvc());
+    public void payCreditCardPage(Card card) {
+        numberCardField.shouldBe(visible).setValue(card.getCardNumber());
+        monthField.shouldBe(visible).setValue(card.getMonth());
+        yearField.shouldBe(visible).setValue(card.getYear());
+        ownerField.shouldBe(visible).setValue(card.getOwner());
+        cvcField.shouldBe(visible).setValue(card.getCvc());
         continueButton.shouldBe(visible).click();
+    }
+
+    public void payCreditCardPageWithEmptyFields() {
+        continueButton.shouldBe(visible).click();
+    }
+    public void emptyCardErrorNotificationCreditCard() {
+        numberCardFieldError.shouldBe(visible);
+    }
+    public void emptyMonthErrorNotificationCreditCard() {
+        monthFieldError.shouldBe(visible);
+    }public void wrongMonthErrorNotificationCreditCard() {
+        monthFieldCardError.shouldBe(visible);
     }
 }
 
