@@ -1,6 +1,5 @@
 package test;
 
-import static com.google.common.base.Predicates.equalTo;
 import static data.SQLHelper.cleanDataBase;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
