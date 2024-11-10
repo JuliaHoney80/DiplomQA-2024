@@ -4,6 +4,7 @@ import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import data.Card;
 import data.DataHelper;
+import io.qameta.allure.Step;
 import java.time.Duration;
 
 
@@ -32,10 +33,12 @@ public class CreditCardPage {
     private final SelenideElement notificationSuccessful = $(".notification_status_ok");
     private final SelenideElement notificationError = $(".notification_status_error");
 
+    @Step("Проверит текст уведомления 'Успешно Операция одобрена банком.'")
     public void notificationSuccessful() {
         notificationSuccessful.shouldBe(visible, Duration.ofSeconds(15)).should(text("Успешно Операция одобрена банком."));
     }
 
+    @Step("Проверка валидации пустых полей")
     public void errorNotificationCreditCardForm() {
         numberCardFieldError.shouldBe(visible);
         monthFieldError.shouldBe(visible);
@@ -44,6 +47,7 @@ public class CreditCardPage {
         cvcFieldError.shouldBe(visible);
     }
 
+    @Step("Оплата тура с данными карты: {card}")
     public void payCreditCardPage(Card card) {
         numberCardField.shouldBe(visible).setValue(card.getCardNumber());
         monthField.shouldBe(visible).setValue(card.getMonth());
@@ -53,15 +57,22 @@ public class CreditCardPage {
         continueButton.shouldBe(visible).click();
     }
 
+    @Step("Оставить поля пустыми и нажать продолжить")
     public void payCreditCardPageWithEmptyFields() {
         continueButton.shouldBe(visible).click();
     }
+
+    @Step("Проверка валидации пустого поля карты")
     public void emptyCardErrorNotificationCreditCard() {
         numberCardFieldError.shouldBe(visible);
     }
+
+    @Step("Проверка валидации пустого поля месяца")
     public void emptyMonthErrorNotificationCreditCard() {
         monthFieldError.shouldBe(visible);
-    }public void wrongMonthErrorNotificationCreditCard() {
+    }
+    @Step("Проверка валидации неверного поля месяца")
+    public void wrongMonthErrorNotificationCreditCard() {
         monthFieldCardError.shouldBe(visible);
     }
 }

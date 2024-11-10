@@ -13,5 +13,4 @@ public class Card {
     private String cvc;
 
 
-
 }

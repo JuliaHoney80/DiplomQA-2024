@@ -1,6 +1,7 @@
 package page;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
@@ -22,11 +23,14 @@ public class DashBoardPage {
 
     }
 
+    @Step("Нажать кнопу Купить")
     public DashBoardPage DebitCardPage() {
         payButton1.shouldBe(visible).click();
         textPayByCard.shouldBe(visible);
         return new DashBoardPage();
     }
+
+    @Step("Нажать кнопу Купить в кредит")
     public DashBoardPage CreditCardPage() {
         payButton2.shouldBe(visible).click();
         textPayByCreditCard.shouldBe(visible);

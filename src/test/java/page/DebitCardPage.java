@@ -3,6 +3,7 @@ package page;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 
+import io.qameta.allure.Step;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.text;
@@ -35,6 +36,7 @@ public class DebitCardPage {
         public DebitCardPage() {
         heading.shouldBe(visible);
     }
+    @Step("Проверит текст уведомления 'Успешно Операция одобрена банком.'")
     public void notificationSuccessful() {
         notificationSuccessful.shouldBe(visible, Duration.ofSeconds(15)).should(text("Успешно Операция одобрена банком."));
     }
@@ -44,6 +46,7 @@ public class DebitCardPage {
 
     }
 
+    @Step("Проверка валидации полей")
     public void emptyFormWithErrorNotificationDebitCard() {
         numberCardFieldError.shouldBe(visible);
         monthFieldError.shouldBe(visible);
@@ -52,14 +55,20 @@ public class DebitCardPage {
         cvcFieldError.shouldBe(visible);
     }
 
+    @Step("Проверка валидации пустого поля карты")
     public void emptyCardErrorNotificationDebitCard() {
         numberCardFieldError.shouldBe(visible);
-    }    public void emptyMonthErrorNotificationDebitCard() {
+    }
+    @Step("Проверка валидации пустого поля месяца")
+    public void emptyMonthErrorNotificationDebitCard() {
         monthFieldError.shouldBe(visible);
-    }public void wrongMonthErrorNotificationDebitCard() {
+    }
+    @Step("Проверка валидации неверного поля месяца")
+    public void wrongMonthErrorNotificationDebitCard() {
         monthFieldCardError.shouldBe(visible);
     }
 
+    @Step("Оплата тура с данными карты: {cardNumber}")
     public void payDebitCardPage(String cardNumber) {
         numberCardField.shouldBe(visible).setValue(cardNumber);
         monthField.shouldBe(visible).setValue(getCurrentMonth(2));
@@ -69,6 +78,7 @@ public class DebitCardPage {
         continueButton.shouldBe(visible).click();
     }
 
+    @Step("Оплата тура с полем месяц: {month}")
     public void payDebitCardPageWithEmptyMonth(String month) {
         numberCardField.shouldBe(visible).setValue(getFirstCardNumber());
         monthField.shouldBe(visible).setValue(month);
@@ -78,6 +88,7 @@ public class DebitCardPage {
         continueButton.shouldBe(visible).click();
     }
 
+    @Step("Оплата тура с полем владелец: {owner}")
     public void payDebitCardPageWithOwner(String owner) {
         numberCardField.shouldBe(visible).setValue(getFirstCardNumber());
         monthField.shouldBe(visible).setValue(getCurrentMonth(2));
@@ -87,6 +98,7 @@ public class DebitCardPage {
         continueButton.shouldBe(visible).click();
     }
 
+    @Step("Оставить поля пустыми и нажать продолжить")
     public void payDebitCardPageWithEmptyFields() {
         continueButton.shouldBe(visible).click();
     }
