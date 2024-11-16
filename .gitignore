@@ -4,4 +4,5 @@ node_modules
 .idea
 target
 *.iml
-data-mysql/
+.data-mysql
+.gradle
