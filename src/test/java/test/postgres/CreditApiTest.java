@@ -1,7 +1,6 @@
 package test.postgres;
 
-import static data.SQLHelper.cleanMysqlDataBase;
-import static data.SQLHelper.cleanPostgresqlDataBase;
+import static data.SQLHelper.cleanDataBase;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -10,9 +9,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -20,10 +17,12 @@ import org.junit.jupiter.api.Test;
 public class CreditApiTest {
 
   String creditCardStatus = "credit";
+  String dbUrlProperty = System.getProperty("db.postgres.url");
+
   @BeforeEach
   void setup() {
     RestAssured.baseURI = "http://localhost:8081";
-    cleanPostgresqlDataBase();
+    cleanDataBase(dbUrlProperty);
   }
 
 
@@ -44,7 +43,7 @@ public class CreditApiTest {
         .then()
         .log().all()
         .statusCode(200)
-        .body("status", equalTo(SQLHelper.getOrderStatusFromPostgresql(creditCardStatus)));
+        .body("status", equalTo(SQLHelper.getOrderStatusFromDatabase(creditCardStatus, dbUrlProperty)));
 
   }
   @Test
@@ -64,7 +63,7 @@ public class CreditApiTest {
         .then()
         .log().all()
         .statusCode(200)
-          .body("status", equalTo(SQLHelper.getOrderStatusFromPostgresql(creditCardStatus)));
+          .body("status", equalTo(SQLHelper.getOrderStatusFromDatabase(creditCardStatus, dbUrlProperty)));
 
   }
 

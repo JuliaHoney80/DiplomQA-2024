@@ -22,49 +22,36 @@ public class SQLHelper {
   }
 
   @SneakyThrows
-  @Step("Очистить БД mysql")
-  public static void cleanMysqlDataBase() {
-    Connection connection = getConn(System.getProperty("db.mysql.url"));
+  @Step("Очистить БД '{dbUrlProperty}'")
+  public static void cleanDataBase(String dbUrlProperty) {
+    Connection connection = getConn(dbUrlProperty);
     QUERY_RUNNER.execute(connection, "DELETE FROM credit_request_entity");
     QUERY_RUNNER.execute(connection, "DELETE FROM order_entity");
     QUERY_RUNNER.execute(connection, "DELETE FROM payment_entity");
   }
 
+  @Step("Получить статус платежа из БД '{dbUrlProperty}'")
   @SneakyThrows
-  @Step("Очистить БД postgres")
-  public static void cleanPostgresqlDataBase() {
-    Connection connection = getConn(System.getProperty("db.postgres.url"));
-    QUERY_RUNNER.execute(connection, "DELETE FROM credit_request_entity");
-    QUERY_RUNNER.execute(connection, "DELETE FROM order_entity");
-    QUERY_RUNNER.execute(connection, "DELETE FROM payment_entity");
-  }
-
-  @Step("Получить статус платежа из БД mysql")
-  @SneakyThrows
-  public static String getOrderStatusFromMysql(String statusType) {
-    String leftJoinQuery = "select ord.id, pa.status as payment, cr.status as credit\n"
-        + "from app.order_entity ord\n"
-        + "         left join app.payment_entity pa on ord.payment_id = pa.transaction_id\n"
-        + "         left join app.credit_request_entity cr on ord.payment_id = cr.bank_id;";
-
-    Connection connection = getConn(System.getProperty("db.mysql.url"));
-    List<Map<String, Object>> resultMap = QUERY_RUNNER.query(connection, leftJoinQuery, new MapListHandler());
+  public static String getOrderStatusFromDatabase(String statusType, String dbUrlProperty) {
+  String leftJoinQuery = buildLeftJoinQuery(dbUrlProperty);
+  Connection connection = getConn(dbUrlProperty);
+  List<Map<String, Object>> resultMap = QUERY_RUNNER.query(connection, leftJoinQuery, new MapListHandler());
 
     return resultMap.listIterator().next().get(statusType).toString();
   }
 
-  @Step("Получить статус платежа из БД postgres")
-  @SneakyThrows
-  public static String getOrderStatusFromPostgresql(String statusType) {
-    String leftJoinQuery = "select ord.id, pa.status as payment, cr.status as credit\n"
-        + "from app.public.order_entity ord\n"
-        + "         left join app.public.payment_entity pa on ord.payment_id = pa.transaction_id\n"
-        + "         left join app.public.credit_request_entity cr on ord.payment_id = cr.bank_id;";
-
-    Connection connection = getConn(System.getProperty("db.postgres.url"));
-    List<Map<String, Object>> resultMap = QUERY_RUNNER.query(connection, leftJoinQuery, new MapListHandler());
-
-    return resultMap.listIterator().next().get(statusType).toString();
+  private static String buildLeftJoinQuery(String dbUrlProperty) {
+    if (dbUrlProperty.contains("mysql")) {
+      return "select ord.id, pa.status as payment, cr.status as credit\n"
+              + "from app.order_entity ord\n"
+              + "         left join app.payment_entity pa on ord.payment_id = pa.transaction_id\n"
+              + "         left join app.credit_request_entity cr on ord.payment_id = cr.bank_id;";
+    } else {
+      return "select ord.id, pa.status as payment, cr.status as credit\n"
+              + "from app.public.order_entity ord\n"
+              + "         left join app.public.payment_entity pa on ord.payment_id = pa.transaction_id\n"
+              + "         left join app.public.credit_request_entity cr on ord.payment_id = cr.bank_id;";
+    }
   }
 
 }

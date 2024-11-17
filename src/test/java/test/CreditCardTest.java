@@ -1,7 +1,7 @@
 package test;
 
 import static data.DataHelper.*;
-import static data.SQLHelper.cleanMysqlDataBase;
+import static data.SQLHelper.cleanDataBase;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.codeborne.selenide.Selenide;
@@ -25,6 +25,8 @@ public class CreditCardTest {
 
   CreditCardPage creditCardPage;
   DashBoardPage dashBoardPage;
+  String dbUrlProperty = System.getProperty("db.mysql.url");
+
 
   @BeforeAll
   static void setupAll() {
@@ -39,7 +41,7 @@ public class CreditCardTest {
 
   @BeforeEach
   void setup() {
-    cleanMysqlDataBase();
+    cleanDataBase(dbUrlProperty);
 
     openSiteAndCheck();
     dashBoardPage.CreditCardPage();
@@ -58,7 +60,7 @@ public class CreditCardTest {
     Card card= new Card(getFirstCardNumber(),getCurrentMonth(2),getCurrentYear(1),getNameOwner(),getCvc());
     creditCardPage.payCreditCardPage(card);
     creditCardPage.notificationSuccessful();
-    assertEquals("APPROVED", SQLHelper.getOrderStatusFromMysql("credit"));
+    assertEquals("APPROVED", SQLHelper.getOrderStatusFromDatabase("credit", dbUrlProperty));
 
   }
   @Test
@@ -69,7 +71,7 @@ public class CreditCardTest {
 
     creditCardPage.payCreditCardPage(card);
     creditCardPage.notificationSuccessful();
-    assertEquals("DECLINED", SQLHelper.getOrderStatusFromMysql("credit"));
+    assertEquals("DECLINED", SQLHelper.getOrderStatusFromDatabase("credit", dbUrlProperty));
   }
   @Test
   @Tag("negative")

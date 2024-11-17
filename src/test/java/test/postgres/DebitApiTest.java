@@ -1,7 +1,6 @@
 package test.postgres;
 
-import static data.SQLHelper.cleanMysqlDataBase;
-import static data.SQLHelper.cleanPostgresqlDataBase;
+import static data.SQLHelper.cleanDataBase;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -20,10 +19,12 @@ import org.junit.jupiter.api.Test;
 public class DebitApiTest {
 
   String debitCardStatus = "payment";
+  String dbUrlProperty = System.getProperty("db.postgres.url");
+
   @BeforeEach
   void setup() {
     RestAssured.baseURI = "http://localhost:8081";
-    cleanPostgresqlDataBase();
+    cleanDataBase(dbUrlProperty);
   }
 
   @Test
@@ -43,7 +44,7 @@ public class DebitApiTest {
         .then()
         .log().all()
         .statusCode(200)
-        .body("status", equalTo(SQLHelper.getOrderStatusFromPostgresql(debitCardStatus)));
+        .body("status", equalTo(SQLHelper.getOrderStatusFromDatabase(debitCardStatus, dbUrlProperty)));
 
   }
   @Test
@@ -63,7 +64,7 @@ public class DebitApiTest {
         .then()
         .log().all()
         .statusCode(200)
-          .body("status", equalTo(SQLHelper.getOrderStatusFromPostgresql(debitCardStatus)));
+          .body("status", equalTo(SQLHelper.getOrderStatusFromDatabase(debitCardStatus, dbUrlProperty)));
 
   }  @Test
   @Disabled("Баг. Приходит статус код 500, вместо 400")

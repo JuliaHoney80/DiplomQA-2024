@@ -18,13 +18,14 @@ import static data.DataHelper.getEmptyMonth;
 import static data.DataHelper.getFirstCardNumber;
 import static data.DataHelper.getNameOwnerInfoSpecialSymbol;
 import static data.DataHelper.getWrongMonth;
-import static data.SQLHelper.cleanMysqlDataBase;
+import static data.SQLHelper.cleanDataBase;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Feature("Debit UI")
 public class DebitCardTest {
     DebitCardPage debitCardPage;
     DashBoardPage dashBoardPage;
+    String dbUrlProperty = System.getProperty("db.mysql.url");
 
     @BeforeAll
     static void setupAll() {
@@ -39,7 +40,7 @@ public class DebitCardTest {
 
     @BeforeEach
     void setup() {
-        cleanMysqlDataBase();
+        cleanDataBase(dbUrlProperty);
 
         openSiteAndCheck();
         dashBoardPage.DebitCardPage();
@@ -57,7 +58,7 @@ public class DebitCardTest {
     public void shouldSuccessfulPayDebitCardWithApprovedStatus() {
         debitCardPage.payDebitCardPage(getFirstCardNumber());
         debitCardPage.notificationSuccessful();
-        assertEquals("APPROVED", SQLHelper.getOrderStatusFromMysql("payment"));
+        assertEquals("APPROVED", SQLHelper.getOrderStatusFromDatabase("payment", dbUrlProperty));
 
     }
     @Test
@@ -67,7 +68,7 @@ public class DebitCardTest {
 
         debitCardPage.payDebitCardPage(DataHelper.getSecondCardNumber());
         debitCardPage.notificationSuccessful();
-        assertEquals("DECLINED", SQLHelper.getOrderStatusFromMysql("payment"));
+        assertEquals("DECLINED", SQLHelper.getOrderStatusFromDatabase("payment", dbUrlProperty));
 }
     @Test
     @Tag("negative")
