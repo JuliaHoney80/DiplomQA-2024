@@ -66,6 +66,10 @@ public class CreditCardPage {
     public void emptyCardErrorNotificationCreditCard() {
         numberCardFieldError.shouldBe(visible);
     }
+    @Step("Проверка валидации неверного поля карты")
+    public void wrongCardErrorNotificationCreditCard() {
+        numberCardFieldError.shouldBe(visible);
+    }
 
     @Step("Проверка валидации пустого поля месяца")
     public void emptyMonthErrorNotificationCreditCard() {
@@ -75,6 +79,37 @@ public class CreditCardPage {
     public void wrongMonthErrorNotificationCreditCard() {
         monthFieldCardError.shouldBe(visible);
     }
+
+    @Step("Проверка валидации пустого поля год")
+    public void emptyYearErrorNotificationCreditCard() {
+        yearFieldError.shouldBe(visible);
+    }
+    @Step("Проверка валидации неверного поля ")
+    public void wrongYearErrorNotificationCreditCard() {
+        yearFieldError.shouldBe(visible);
+    }
+
+    @Step("Проверка валидации пустого поля владелец")
+    public void emptyOwnerErrorNotificationCreditCard() {
+        ownerFieldError.shouldBe(visible);
+    }
+    @Step("Проверка валидации неверного поля ")
+    public void wrongOwnerErrorNotificationCreditCard() {
+        ownerFieldError.shouldBe(visible);
+    }
+
+    @Step("Проверка валидации пустого поля код")
+    public void emptyCvcErrorNotificationCreditCard() {
+        cvcFieldError.shouldBe(visible);
+    }
+    @Step("Проверка валидации неверного поля ")
+    public void wrongCvcErrorNotificationCreditCard() {
+        cvcFieldError.shouldBe(visible);
+    }
+
+
+
+
 }
 
 

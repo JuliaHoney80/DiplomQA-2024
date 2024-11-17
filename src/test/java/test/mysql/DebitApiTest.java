@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+
 @Feature("Debit API mysql")
 public class DebitApiTest {
 
@@ -23,7 +25,7 @@ public class DebitApiTest {
   String dbUrlProperty = System.getProperty("db.mysql.url");
 
   @BeforeEach
-  void setup() {
+  void setup() throws SQLException {
     RestAssured.baseURI = "http://localhost:8080";
     cleanDataBase(dbUrlProperty);
   }
@@ -34,7 +36,7 @@ public class DebitApiTest {
   @Tag("approved")
   @Tag("mysql")
   @Story("1. Отправка запроса c валидными данными и номером карты \"4444 4444 4444 4441\"")
-  public void testDebitWithFirstCardNumberCard() {
+  public void testDebitWithFirstCardNumberCard() throws SQLException {
     String requestBody = "{\"number\":\"4444 4444 4444 4441\",\"year\":\"24\",\"month\":\"12\",\"holder\":\"Vladelec Vladelec\",\"cvc\":\"999\"}";
     given()
         .contentType(ContentType.JSON)
@@ -54,7 +56,7 @@ public class DebitApiTest {
   @Tag("declined")
   @Tag("mysql")
   @Story("2. Отправка запроса c валидными данными и номером карты \"4444 4444 4444 4442\"")
-  public void testDebitWithSecondCardNumberCard() {
+  public void testDebitWithSecondCardNumberCard() throws SQLException {
     String requestBody = "{\"number\":\"4444 4444 4444 4442\",\"year\":\"24\",\"month\":\"12\",\"holder\":\"Vladelec Vladelec\",\"cvc\":\"999\"}";
     given()
         .contentType(ContentType.JSON)

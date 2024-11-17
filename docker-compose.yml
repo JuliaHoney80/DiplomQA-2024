@@ -2,6 +2,7 @@
 services:
 
   app-mysql:
+    restart: on-failure
     build: artifacts
     ports:
       - "8080:8080"

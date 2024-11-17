@@ -13,6 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+
 @Feature("Credit API postgres")
 public class CreditApiTest {
 
@@ -20,7 +22,7 @@ public class CreditApiTest {
   String dbUrlProperty = System.getProperty("db.postgres.url");
 
   @BeforeEach
-  void setup() {
+  void setup() throws SQLException {
     RestAssured.baseURI = "http://localhost:8081";
     cleanDataBase(dbUrlProperty);
   }
@@ -32,7 +34,7 @@ public class CreditApiTest {
   @Tag("approved")
   @Tag("postgres")
   @Story("3.Отправка запроса c валидными данными и номером карты \"4444 4444 4444 4441\"")
-  public void testCreditWithFirstCardNumberCard() {
+  public void testCreditWithFirstCardNumberCard() throws SQLException {
     String requestBody = "{\"number\":\"4444 4444 4444 4441\",\"year\":\"24\",\"month\":\"12\",\"holder\":\"Vladelec Vladelec\",\"cvc\":\"999\"}";
     given()
         .contentType(ContentType.JSON)
@@ -52,7 +54,7 @@ public class CreditApiTest {
   @Tag("declined")
   @Tag("postgres")
   @Story("4.Отправка запроса c валидными данными и номером карты \"4444 4444 4444 4442\"")
-  public void testCreditWithSecondCardNumberCard() {
+  public void testCreditWithSecondCardNumberCard() throws SQLException {
     String requestBody = "{\"number\":\"4444 4444 4444 4442\",\"year\":\"24\",\"month\":\"12\",\"holder\":\"Vladelec Vladelec\",\"cvc\":\"999\"}";
     given()
         .contentType(ContentType.JSON)

@@ -1,9 +1,9 @@
 package page;
 
-import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 
 import io.qameta.allure.Step;
+
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.text;
@@ -13,6 +13,7 @@ import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 import static data.DataHelper.*;
+import static data.DataHelper.getCurrentMonth;
 
 public class DebitCardPage {
 
@@ -33,9 +34,12 @@ public class DebitCardPage {
     private final SelenideElement notificationSuccessful = $(".notification_status_ok");
     private final SelenideElement notificationError = $(".notification_status_error");
 
-        public DebitCardPage() {
+
+
+    public DebitCardPage() {
         heading.shouldBe(visible);
     }
+
     @Step("Проверит текст уведомления 'Успешно Операция одобрена банком.'")
     public void notificationSuccessful() {
         notificationSuccessful.shouldBe(visible, Duration.ofSeconds(15)).should(text("Успешно Операция одобрена банком."));
@@ -56,19 +60,55 @@ public class DebitCardPage {
     }
 
     @Step("Проверка валидации пустого поля карты")
-    public void emptyCardErrorNotificationDebitCard() {
+    public void emptyCardErrorNotificationDebitCard() { numberCardFieldError.shouldBe(visible);
+    }
+
+    @Step("Проверка валидации неверного поля карты")
+    public void wrongCardErrorNotificationDebitCard() {
         numberCardFieldError.shouldBe(visible);
     }
+
     @Step("Проверка валидации пустого поля месяца")
     public void emptyMonthErrorNotificationDebitCard() {
         monthFieldError.shouldBe(visible);
     }
+
     @Step("Проверка валидации неверного поля месяца")
     public void wrongMonthErrorNotificationDebitCard() {
         monthFieldCardError.shouldBe(visible);
     }
 
-    @Step("Оплата тура с данными карты: {cardNumber}")
+    @Step("Проверка валидации пустого поля год")
+    public void emptyYearErrorNotificationDebitCard() {
+        yearFieldError.shouldBe(visible);
+    }
+
+    @Step("Проверка валидации неверного поля год")
+    public void wrongYearErrorNotificationDebitCard() {
+        yearFieldError.shouldBe(visible);
+    }
+
+    @Step("Проверка валидации пустого поля владелец")
+    public void emptyOwnerErrorNotificationDebitCard() {
+        ownerFieldError.shouldBe(visible);
+    }
+
+    @Step("Проверка валидации неверного поля владельца")
+    public void wrongOwnerErrorNotificationDebitCard() {
+        ownerFieldError.shouldBe(visible);
+    }
+
+    @Step("Проверка валидации пустого поля кода")
+    public void emptyCvcErrorNotificationDebitCard() {
+        cvcFieldError.shouldBe(visible);
+    }
+
+    @Step("Проверка валидации неверного поля код")
+    public void wrongCvcErrorNotificationDebitCard() {
+        cvcFieldError.shouldBe(visible);
+    }
+
+    @Step("Оплата тура с данными карты:{cardNumber}")
     public void payDebitCardPage(String cardNumber) {
         numberCardField.shouldBe(visible).setValue(cardNumber);
         monthField.shouldBe(visible).setValue(getCurrentMonth(2));
@@ -78,7 +118,7 @@ public class DebitCardPage {
         continueButton.shouldBe(visible).click();
     }
 
-    @Step("Оплата тура с полем месяц: {month}")
+    @Step("Оплата тура с полем месяц:{month}")
     public void payDebitCardPageWithEmptyMonth(String month) {
         numberCardField.shouldBe(visible).setValue(getFirstCardNumber());
         monthField.shouldBe(visible).setValue(month);
@@ -88,13 +128,33 @@ public class DebitCardPage {
         continueButton.shouldBe(visible).click();
     }
 
-    @Step("Оплата тура с полем владелец: {owner}")
-    public void payDebitCardPageWithOwner(String owner) {
+    @Step("Оплата тура с полем год:{year}")
+    public void payDebitCardPageWithEmptyYear(String year) {
+        numberCardField.shouldBe(visible).setValue(getFirstCardNumber());
+        monthField.shouldBe(visible).setValue(getCurrentMonth(2));
+        yearField.shouldBe(visible).setValue(year);
+        ownerField.shouldBe(visible).setValue(getNameOwner());
+        cvcField.shouldBe(visible).setValue(getCvc());
+        continueButton.shouldBe(visible).click();
+    }
+
+    @Step("Оплата тура с полем месяц:{owner}")
+    public void payDebitCardPageWithEmptyOwner(String owner) {
         numberCardField.shouldBe(visible).setValue(getFirstCardNumber());
         monthField.shouldBe(visible).setValue(getCurrentMonth(2));
         yearField.shouldBe(visible).setValue(getCurrentYear(1));
         ownerField.shouldBe(visible).setValue(owner);
         cvcField.shouldBe(visible).setValue(getCvc());
+        continueButton.shouldBe(visible).click();
+    }
+
+    @Step("Оплата тура с полем кода: {cvc}")
+    public void payDebitCardPageWithEmptyCvc(String cvc) {
+        numberCardField.shouldBe(visible).setValue(getFirstCardNumber());
+        monthField.shouldBe(visible).setValue(getCurrentMonth(2));
+        yearField.shouldBe(visible).setValue(getCurrentYear(1));
+        ownerField.shouldBe(visible).setValue(getNameOwner());
+        cvcField.shouldBe(visible).setValue(cvc);
         continueButton.shouldBe(visible).click();
     }
 
@@ -105,6 +165,11 @@ public class DebitCardPage {
 
 
 }
+
+
+
+
+
 
 
 

@@ -1,9 +1,6 @@
 package data;
 
 import com.github.javafaker.Faker;
-import com.github.javafaker.Number;
-import lombok.AllArgsConstructor;
-import lombok.Value;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDate;
@@ -32,10 +29,17 @@ public class DataHelper {
         return "DECLINED";
     }
 
-    public static String getEmptyCardField() {
-        return "";
 
+    public static String getWrongSecondCardNumberField() {
+        return "(%$#@*";
 
+    }
+    public static String getLessSecondCardNumberField() {
+        return "8";
+    }
+
+    public static String getMoreSecondCardNumberField() {
+        return "13";
     }
 
     public static String getEmptyCardNumberField() {
@@ -50,8 +54,16 @@ public class DataHelper {
         return LocalDate.now().minusMonths(shift).format(DateTimeFormatter.ofPattern("MM"));
     }
 
-    public static String getMonthWithOneZero(int shift) {
-        return LocalDate.now().minusMonths(0).format(DateTimeFormatter.ofPattern("MM"));
+    public static String getMonthPlusTwo(int shift) {
+        return LocalDate.now().plusMonths(2).format(DateTimeFormatter.ofPattern("MM"));
+    }
+
+    public static String getMonthWithOneGigit(int shift) {
+        return LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern("MM"));
+    }
+
+    public static String getMonthWithTwoZero(int shift) {
+        return LocalDate.now().minusMonths(00).format(DateTimeFormatter.ofPattern("MM"));
     }
 
     public static String getMonthWithThirteenMonth(int shift) {
@@ -70,15 +82,21 @@ public class DataHelper {
         return LocalDate.now().minusYears(1).format(DateTimeFormatter.ofPattern("yy"));
     }
 
-    public static String getFiveYearsInfoAhead(int shift) {
+    public static String getFiveYearsAhead(int shift) {
         return LocalDate.now().plusYears(5).format(DateTimeFormatter.ofPattern("yy"));
     }
 
-    public static String getEmptyYear(int shift) {
+    public static String getEmptyYear() {
         return LocalDate.now().format(DateTimeFormatter.ofPattern(""));
     }
+    public static String getYearWithOneGigit(int shift) {
+        return LocalDate.now().minusYears(1).format(DateTimeFormatter.ofPattern("yy"));
+    }
+    public static String getYearWithTwoZero(int shift) {
+        return LocalDate.now().minusYears(00).format(DateTimeFormatter.ofPattern("yy"));
+    }
 
-    public static String getYearInfoWithSpecialSymbol() {
+    public static String getYearWithSpecialSymbol(String s) {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("$@^%$;:"));
     }
 
@@ -86,11 +104,11 @@ public class DataHelper {
         return fakerLangEN.name().fullName();
     }
 
-    public static String getNameOwnerInfoSpecialSymbol() {
+    public static String getNameOwnerSpecialSymbol(String s) {
         return "(%$#@*";
     }
 
-    public static String getNameOwnerInfoCyrillic() {
+    public static String getNameOwnerCyrillic(Locale ru) {
         var faker = new Faker(new Locale("ru"));
         return faker.name().fullName();
     }
@@ -109,17 +127,22 @@ public class DataHelper {
         return String.valueOf(fakerLangEN.number().numberBetween(111, 999));
 
     }
-
-    public static String getGenerateWrongCvc() {
-        return fakerLangEN.numerify("####");
-    }
-
     public static String getEmptyCvc() {
         return "";
-
-
     }
-}
+
+    public static String getGenerateWrongCvc() {
+        return fakerLangEN.numerify("0");
+    }
+
+    public static String getSpecialSymbolCvc(String s) {
+        return "@#$%";
+    }
+    }
+
+
+
+
 
 
 
