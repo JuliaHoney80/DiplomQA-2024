@@ -11,9 +11,6 @@
 Были автоматизированы позитивные и негативныетестовые сценарии, а также API тесты запросы в СУБД. 
 Также был сформировани отчет AllureReport, показывающий результаты выполнения автотестов.
 
-*Перечень выявленных (ошибок)(https://github.com/JuliaHoney80/DiplomQA-2024/issues)*
+*Перечень выявленных [ошибок](https://github.com/JuliaHoney80/DiplomQA-2024/issues)*
 
-*Скриншот AllurReport*
-![Снимок экрана 2024-11-17 203609.png](..%2F..%2F..%2FOneDrive%2F%D0%98%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%2F%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B8%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%2F%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202024-11-17%20203609.png)
-![Снимок экрана 2024-11-17 203625.png](..%2F..%2F..%2FOneDrive%2F%D0%98%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%2F%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B8%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%2F%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202024-11-17%20203625.png)
-
+[Скриншот AllurReport](http://localhost:63342/DiplomQA-2024/build/reports/allure-report/allureReport/index.html?_ijt=anaaev4i21h0rbr5hmdjhseqhv&_ij_reload=RELOAD_ON_SAVE#)
