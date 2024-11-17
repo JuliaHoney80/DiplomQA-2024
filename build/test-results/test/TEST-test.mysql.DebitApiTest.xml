@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.mysql.DebitApiTest" tests="3" skipped="1" failures="0" errors="0" timestamp="2024-11-17T15:46:26" hostname="LAPTOP-DI2HUBP1" time="0.399">
+  <properties/>
+  <testcase name="testDebitWithSecondCardNumberCard()" classname="test.mysql.DebitApiTest" time="0.194"/>
+  <testcase name="testDebitWithFirstCardNumberCard()" classname="test.mysql.DebitApiTest" time="0.193"/>
+  <testcase name="testDebitWithWrongCardNumber()" classname="test.mysql.DebitApiTest" time="0.002">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[Request method:	POST
+Request URI:	http://localhost:8080/api/v1/pay
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "number": "4444 4444 4444 4442",
+    "year": "24",
+    "month": "12",
+    "holder": "Vladelec Vladelec",
+    "cvc": "999"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sun, 17 Nov 2024 15:46:26 GMT
+
+{
+    "status": "DECLINED"
+}
+Request method:	POST
+Request URI:	http://localhost:8080/api/v1/pay
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "number": "4444 4444 4444 4441",
+    "year": "24",
+    "month": "12",
+    "holder": "Vladelec Vladelec",
+    "cvc": "999"
+}
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sun, 17 Nov 2024 15:46:26 GMT
+
+{
+    "status": "APPROVED"
+}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
