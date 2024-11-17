@@ -13,4 +13,4 @@
 
 *Перечень выявленных [ошибок](https://github.com/JuliaHoney80/DiplomQA-2024/issues)*
 
-[Скриншот AllurReport](http://localhost:63342/DiplomQA-2024/build/reports/allure-report/allureReport/index.html?_ijt=anaaev4i21h0rbr5hmdjhseqhv&_ij_reload=RELOAD_ON_SAVE#)
+Скриншот отчета AllureReport-https://imgur.com/a/uwvzTkx
